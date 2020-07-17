@@ -21,7 +21,7 @@ public class Main {
         ServerBootstrap serverBootstrap = new ServerBootstrap();
         serverBootstrap.channel(NioServerSocketChannel.class);
 
-        LimitHandler limitHandler = new LimitHandler(2);
+        LimitHandler limitHandler = new LimitHandler(Integer.MAX_VALUE);
         EventLoopGroup bossGroup = new NioEventLoopGroup(0, new DefaultThreadFactory("boss"));
         EventLoopGroup workerGroup = new NioEventLoopGroup(0, new DefaultThreadFactory("worker"));
 
