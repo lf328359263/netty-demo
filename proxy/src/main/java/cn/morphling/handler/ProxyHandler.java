@@ -18,6 +18,8 @@ public class ProxyHandler extends ChannelInboundHandlerAdapter {
     public void createClient(ChannelHandlerContext ctx, Object msg) {
         Bootstrap bootstrap = new Bootstrap();
         bootstrap.group(ctx.channel().eventLoop())
+                .option(ChannelOption.TCP_NODELAY, true)
+                .option(ChannelOption.CONNECT_TIMEOUT_MILLIS, 1000)
                 .channel(ctx.channel().getClass())
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
@@ -35,6 +37,7 @@ public class ProxyHandler extends ChannelInboundHandlerAdapter {
             if (future.isSuccess()) {
                 future.channel().writeAndFlush(msg);
             } else {
+                System.out.println("failed: " + future.cause().getMessage());
                 ctx.channel().close();
             }
         });
